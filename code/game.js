@@ -1,7 +1,8 @@
 // Map each class of actor to a character
 var actorChars = {
   "@": Player,
-  "o": Coin // A coin will wobble up and down
+  "o": Coin 
+  /*"p": Enemy*/
 };
 
 function Level(plan) {
@@ -84,6 +85,15 @@ function Coin(pos) {
   this.wobble = Math.random() * Math.PI * 2;
 }
 Coin.prototype.type = "coin";
+
+// Add a new actor type as a class, enemy
+/*function Enemy(pos) {
+  this.basePos = this.pos = pos.plus(new Vector(0.2, 0.1));
+  this.size = new Vector(0.6, 0.6);
+  // Make it go back and forth in a sine wave.
+  this.wobble = Math.random() * Math.PI * 2;
+}
+Enemy.prototype.type = "enemy";*/
 
 // Helper function to easily create an element of a type provided 
 // and assign it a class.
@@ -248,6 +258,16 @@ Coin.prototype.act = function(step) {
   this.pos = this.basePos.plus(new Vector(0, wobblePos));
 };
 
+/*var maxStep = 0.05;
+
+var wobbleSpeed = 8, wobbleDist = 0.07;
+
+Enemy.prototype.act = function(step) {
+  this.wobble += step * wobbleSpeed;
+  var wobblePos = Math.sin(this.wobble) * wobbleDist;
+  this.pos = this.basePos.plus(new Vector(0, wobblePos));
+};*/
+
 var maxStep = 0.05;
 
 var playerXSpeed = 7;
@@ -305,6 +325,14 @@ Level.prototype.playerTouched = function(type, actor) {
     });
   }
 };
+
+/*Level.prototype.playerTouched = function(type, actor) {
+  if (type == "enemy") {
+    this.actors = this.actors.filter(function(other) {
+      return other != actor;
+    });
+  }
+};*/
 
 // Arrow key codes for readibility
 var arrowCodes = {37: "left", 38: "up", 39: "right"};
